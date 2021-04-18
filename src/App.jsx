@@ -9,17 +9,17 @@ function App() {
   const [watchStart, setWatchStart] = useState(false);
 
   useEffect(() => {
-    const unsubscribe$ = new Subject();
+    const stream$ = new Subject();
     interval(1000)
-      .pipe(takeUntil(unsubscribe$))
+      .pipe(takeUntil(stream$))
       .subscribe(() => {
         if (watchStart) {
           setTime((prevTime) => prevTime + 1);
         }
       });
     return () => {
-      unsubscribe$.next();
-      unsubscribe$.complete();
+      stream$.next();
+      stream$.complete();
     };
   }, [watchStart]);
 
