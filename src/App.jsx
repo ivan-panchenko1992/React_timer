@@ -6,36 +6,35 @@ import 'bulma';
 
 function App() {
   const [time, setTime] = useState(0);
-  const [watchOn, setWatchOn] = useState(false);
+  const [watchStart, setWatchStart] = useState(false);
 
   useEffect(() => {
     const unsubscribe$ = new Subject();
     interval(1000)
       .pipe(takeUntil(unsubscribe$))
       .subscribe(() => {
-        if (watchOn) {
-          setTime((val) => val + 1);
+        if (watchStart) {
+          setTime((prevTime) => prevTime + 1);
         }
       });
     return () => {
       unsubscribe$.next();
       unsubscribe$.complete();
     };
-  }, [watchOn]);
+  }, [watchStart]);
 
   const handleStart = () => {
-    // eslint-disable-next-line no-shadow
-    setWatchOn((watchOn) => !watchOn);
-    if (watchOn) {
+    setWatchStart((prevWatchOn) => !prevWatchOn);
+    if (watchStart) {
       setTime(0);
     }
   };
   const handleWait = () => {
-    setWatchOn(false);
+    setWatchStart(false);
   };
   const handleReset = () => {
     setTime(0);
-    setWatchOn(true);
+    setWatchStart(true);
   };
 
   return (
@@ -56,7 +55,7 @@ function App() {
           </span>
         </div>
         <div className="header__button">
-          {!watchOn ? (
+          {!watchStart ? (
             <button
               className="button"
               type="button"
