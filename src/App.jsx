@@ -75,7 +75,7 @@ function App() {
           <button
             className="button"
             type="button"
-            onClick={handleWait}
+            onDoubleClick={handleWait}
           >
             Wait
           </button>
